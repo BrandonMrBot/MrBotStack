@@ -1,0 +1,115 @@
+###
+# app configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/environment.html
+###
+
+[app:{{ cookiecutter.project_name }}]
+use = egg:{{ cookiecutter.project_name }}
+
+pyramid.reload_templates = true
+pyramid.debug_authorization = false
+pyramid.debug_notfound = false
+pyramid.debug_routematch = false
+pyramid.default_locale_name = en
+pyramid.includes =
+    pyramid_debugtoolbar
+
+{% raw %}
+sqlalchemy.url = mysql+mysqlconnector://{{ mysql_user_name }}:{{ mysql_user_password }}@{{ mysql_host }}/{{ mysql_schema }}?charset=utf8&ssl_disabled=True
+{% endraw %}
+retry.attempts = 3
+
+celery.broker = redis://localhost:6379/5
+celery.backend = redis://localhost:6379/5
+celery.taskname = {{ cookiecutter.project_name }}task
+
+{% raw %}
+auth.main.secret = {{ main_secret }}
+{% endraw %}
+auth.main.cookie = {{ cookiecutter.project_name }}_main_auth_tkt
+{% raw %}
+auth.secret = {{ auth_secret }}
+aes.key = {{ aes_key }}
+redis.sessions.secret = {{ redis_sessions_secret }}
+{% endraw %}
+redis.sessions.timeout = 7200
+redis.sessions.cookie_name = {{ cookiecutter.project_name }}_session
+redis.sessions.host = localhost
+redis.sessions.port = 6379
+
+mysql.host = {{ mysql_host }}
+mysql.port = {{ mysql_port }}
+mysql.user = {{ mysql_user_name }}
+mysql.password = {{ mysql_user_password }}
+
+user.repository = {{ repository_path }}
+mysql.cnf = %(here)s/mysql.cnf
+
+# By default, the toolbar only appears for clients from IP addresses
+# '127.0.0.1' and '::1'.
+# debugtoolbar.hosts = 127.0.0.1 ::1
+
+[pshell]
+setup = {{ cookiecutter.project_name }}.pshell.setup
+
+###
+# wsgi server configuration
+###
+
+[composite:main]
+use = egg:rutter#urlmap
+/ = {{ cookiecutter.project_name }}
+
+[server:main]
+use = egg:gunicorn
+host = {{ cookiecutter.project_name +"_host" }}
+port = {{ cookiecutter.project_name +"_port" }}
+threads = 2
+workers = 1
+worker_class = gevent
+capture_output = {{ capture_output }}
+proxy_protocol = True
+daemon = {{ daemon }}
+pidfile = {{ pid_file }}
+errorlog = {{ error_log_file }}
+forwarded_allow_ips = {{ forwarded_allow_ip }}
+
+###
+# logging configuration
+# https://docs.pylonsproject.org/projects/pyramid/en/latest/narr/logging.html
+###
+
+[loggers]
+keys = root, {{ cookiecutter.project_name }}, sqlalchemy
+
+[handlers]
+keys = console
+
+[formatters]
+keys = generic
+
+[logger_root]
+level = INFO
+handlers = console
+
+[logger_{{ cookiecutter.project_name }}]
+level = DEBUG
+handlers =
+qualname = {{ cookiecutter.project_name }}
+
+[logger_sqlalchemy]
+level = WARN
+handlers =
+qualname = sqlalchemy.engine
+# "level = INFO" logs SQL queries.
+# "level = DEBUG" logs SQL queries and results.
+# "level = WARN" logs neither.  (Recommended for production systems.)
+
+[handler_console]
+class = StreamHandler
+args = (sys.stderr,)
+level = NOTSET
+formatter = generic
+
+[formatter_generic]
+format = %(asctime)s %(levelname)-5.5s [%(name)s:%(lineno)s][%(threadName)s] %(message)s

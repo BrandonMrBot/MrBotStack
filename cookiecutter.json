@@ -1,0 +1,12 @@
+{
+  "project_description": "A project based on MrBot Stack",
+  "project_name": "{{cookiecutter.project_description.lower().strip().replace(' ', '_').replace(':', '_').replace('-', '_').replace('!', '_')}}",
+  "project_version": "1.0",
+  "project_author": "Myself",
+  "project_author_email": "me@myserver.com",
+  "project_author_url": "www.myserver.com",
+  "_copy_without_render": [
+    "*jinja2"
+  ]
+}
+
