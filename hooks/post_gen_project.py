@@ -27,7 +27,7 @@ def display_actions_message():
             python setup.py develop
             
         Create an initial configuration
-            create_config --mysql_host=localhost --mysql_schema={{ cookiecutter.project_name }} --mysql_user_name=root --mysql_user_password=[my_secure_password] ./config.ini 
+            create_config development.ini  --mysql_user_name=root --mysql_user_password=[my_secure_password] --repository_path=/home --forwarded_allow_ip=127.0.0.1 --pid_file=a.pi --error_log_file=no --testmrbotstack_host=127.0.0.1 --testmrbotstack_port=1234
 
         Create a schema called {{ cookiecutter.project_name }} in the MySQL server
         

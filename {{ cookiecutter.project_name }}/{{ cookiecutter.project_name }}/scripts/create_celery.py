@@ -31,7 +31,7 @@ def main(argv=sys.argv):
         trim_blocks=False,
     )
 
-    context = {"{{ cookiecutter.project_name }}_INI_FILE": {{ cookiecutter.project_name }}_ini_file}
+    context = {"{{ cookiecutter.project_name|upper }}_INI_FILE": {{ cookiecutter.project_name }}_ini_file}
 
     rendered_template = template_environment.get_template(
         "celery_app_template.template"

@@ -14,7 +14,6 @@ from {{ cookiecutter.project_name }}.plugins.interfaces import IPluginObserver
 
 __all__ = [
     "PluginImplementations",
-    "implements",
     "PluginNotFoundException",
     "Plugin",
     "SingletonPlugin",

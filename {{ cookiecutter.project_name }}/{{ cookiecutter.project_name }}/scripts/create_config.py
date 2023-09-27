@@ -71,6 +71,8 @@ def main():
         action="store_true",
         help="Start as {{ cookiecutter.project_name }} in detached mode",
     )
+    parser.add_argument("--{{ cookiecutter.project_name }}_host", required=True, help="Host name for {{ cookiecutter.project_name }}")
+    parser.add_argument("--{{ cookiecutter.project_name }}_port", required=True, help="Port for {{ cookiecutter.project_name }}")
     args = parser.parse_args()
     {{ cookiecutter.project_name }}_path = "."
     if not os.path.exists(os.path.join({{ cookiecutter.project_name }}_path, "templates")):
@@ -98,14 +100,14 @@ def main():
         "aes_key": aes_key,
         "redis_sessions_secret": redis_sessions_secret,
         "repository_path": args.repository_path,
-        "{{ cookiecutter.project_name }}_host": args.memo_host,
-        "{{ cookiecutter.project_name }}_port": args.memo_port,
+        "{{ cookiecutter.project_name }}_host": args.{{ cookiecutter.project_name }}_host,
+        "{{ cookiecutter.project_name }}_port": args.{{ cookiecutter.project_name }}_port,
         "daemon": args.daemon,
         "pid_file": args.pid_file,
         "error_log_file": args.error_log_file,
         "forwarded_allow_ip": args.forwarded_allow_ip,
     }
-    print(context)
+
     rendered_template = template_environment.get_template("config.template").render(
         context
     )
@@ -122,7 +124,7 @@ def main():
         alembic_context
     )
     alembic_file = os.path.dirname(ini_path) + "/alembic.ini"
-    print(alembic_file)
+
     if not os.path.exists(args.ini_path):
         with open(args.ini_path, "w") as f:
             f.write(rendered_template)

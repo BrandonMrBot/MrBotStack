@@ -21,7 +21,7 @@ from {{ cookiecutter.project_name }}.processes.db import (
     register_user,
     update_last_login,
 )
-from {{ cookiecutter.project_name }}.config.jinja_extensions import jinjaEnv, extendThis
+from {{ cookiecutter.project_name }}.config.jinja_extensions import jinjaEnv, ExtendThis
 from {{ cookiecutter.project_name }}.utility.helpers import readble_date
 from email.mime.text import MIMEText
 from email.header import Header
@@ -353,7 +353,7 @@ class RecoverPasswordView(PublicView):
 
     def send_password_email(self, email_to, reset_token, reset_key, user_dict):
         jinjaEnv.add_extension(ext.i18n)
-        jinjaEnv.add_extension(extendThis)
+        jinjaEnv.add_extension(ExtendThis)
         _ = self.request.translate
         email_from = self.request.registry.settings.get("email.from", None)
         if email_from is None:

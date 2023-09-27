@@ -12,6 +12,8 @@ from {{ cookiecutter.project_name }}.views.public_views import (
     RefreshSessionView,
     ErrorView,
     Gravatar,
+    RecoverPasswordView,
+    ResetPasswordView
 )
 from {{ cookiecutter.project_name }}.views.private_views import UserPrivatePageView
 

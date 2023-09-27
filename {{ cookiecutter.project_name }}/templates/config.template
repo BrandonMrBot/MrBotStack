@@ -38,12 +38,12 @@ redis.sessions.host = localhost
 redis.sessions.port = 6379
 
 {% raw %}
-#mysql.host = {{ mysql_host }}
-#mysql.port = {{ mysql_port }}
-#mysql.user = {{ mysql_user_name }}
-#mysql.password = {{ mysql_user_password }}
+mysql.host = {{ mysql_host }}
+mysql.port = {{ mysql_port }}
+mysql.user = {{ mysql_user_name }}
+mysql.password = {{ mysql_user_password }}
 
-#user.repository = {{ repository_path }}
+user.repository = {{ repository_path }}
 
 {% endraw %}
 
@@ -66,18 +66,20 @@ use = egg:rutter#urlmap
 
 [server:main]
 use = egg:gunicorn
+{% raw %}
 host = {{ cookiecutter.project_name +"_host" }}
 port = {{ cookiecutter.project_name +"_port" }}
+{% endraw %}
 threads = 2
 workers = 1
 worker_class = gevent
 {% raw %}
-#capture_output = {{ capture_output }}
+capture_output = {{ capture_output }}
 proxy_protocol = True
-#daemon = {{ daemon }}
-#pidfile = {{ pid_file }}
-#errorlog = {{ error_log_file }}
-#forwarded_allow_ips = {{ forwarded_allow_ip }}
+daemon = {{ daemon }}
+pidfile = {{ pid_file }}
+errorlog = {{ error_log_file }}
+forwarded_allow_ips = {{ forwarded_allow_ip }}
 {% endraw %}
 ###
 # logging configuration
