@@ -16,7 +16,7 @@ def usage(argv):
 def main(argv=sys.argv):
     if len(argv) != 2:
         usage(argv)
-    {{ cookiecutter.project_name }}_path = "../.."
+    {{ cookiecutter.project_name }}_path = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     {{ cookiecutter.project_name }}_ini_file = os.path.abspath(argv[1])
     if not os.path.exists({{ cookiecutter.project_name }}_ini_file):
         print("Ini file {} does not exists".format({{ cookiecutter.project_name }}_ini_file))
