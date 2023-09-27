@@ -37,12 +37,12 @@ redis.sessions.cookie_name = {{ cookiecutter.project_name }}_session
 redis.sessions.host = localhost
 redis.sessions.port = 6379
 
-mysql.host = {{ mysql_host }}
-mysql.port = {{ mysql_port }}
-mysql.user = {{ mysql_user_name }}
-mysql.password = {{ mysql_user_password }}
+#mysql.host = {{ mysql_host }}
+#mysql.port = {{ mysql_port }}
+#mysql.user = {{ mysql_user_name }}
+#mysql.password = {{ mysql_user_password }}
 
-user.repository = {{ repository_path }}
+#user.repository = {{ repository_path }}
 mysql.cnf = %(here)s/mysql.cnf
 
 # By default, the toolbar only appears for clients from IP addresses
@@ -67,12 +67,12 @@ port = {{ cookiecutter.project_name +"_port" }}
 threads = 2
 workers = 1
 worker_class = gevent
-capture_output = {{ capture_output }}
+#capture_output = {{ capture_output }}
 proxy_protocol = True
-daemon = {{ daemon }}
-pidfile = {{ pid_file }}
-errorlog = {{ error_log_file }}
-forwarded_allow_ips = {{ forwarded_allow_ip }}
+#daemon = {{ daemon }}
+#pidfile = {{ pid_file }}
+#errorlog = {{ error_log_file }}
+#forwarded_allow_ips = {{ forwarded_allow_ip }}
 
 ###
 # logging configuration

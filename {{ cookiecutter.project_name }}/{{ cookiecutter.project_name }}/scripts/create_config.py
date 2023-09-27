@@ -24,6 +24,26 @@ def random_password(size):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("ini_path", help="Path to ini file to create")
+    parser.add_argument("--mysql_host", default="localhost", help="MySQL host server to use. Default to localhost")
+    parser.add_argument(
+        "--mysql_port", default=3306, help="MySQL port to use. Default to 3306"
+    )
+    parser.add_argument(
+        "--mysql_schema",
+        default="{{ cookiecutter.project_name }}",
+        help="MySQL schema to use. Default to '{{ cookiecutter.project_name }}'",
+    )
+    parser.add_argument(
+        "--mysql_user_name",
+        required=True,
+        help="MySQL user name to use to create the schema",
+    )
+    parser.add_argument(
+        "--mysql_user_password", required=True, help="MySQL user name password"
+    )
+    parser.add_argument(
+        "--repository_path", required=True, help="Path to the {{ cookiecutter.project_name }} repository"
+    )
     parser.add_argument(
         "--forwarded_allow_ip",
         required=True,
@@ -50,26 +70,6 @@ def main():
         "--capture_output",
         action="store_true",
         help="Start as {{ cookiecutter.project_name }} in detached mode",
-    )
-    parser.add_argument("--mysql_host", default="localhost", help="MySQL host server to use. Default to localhost")
-    parser.add_argument(
-        "--mysql_port", default=3306, help="MySQL port to use. Default to 3306"
-    )
-    parser.add_argument(
-        "--mysql_schema",
-        default="{{ cookiecutter.project_name }}",
-        help="MySQL schema to use. Default to '{{ cookiecutter.project_name }}'",
-    )
-    parser.add_argument(
-        "--mysql_user_name",
-        required=True,
-        help="MySQL user name to use to create the schema",
-    )
-    parser.add_argument(
-        "--mysql_user_password", required=True, help="MySQL user name password"
-    )
-    parser.add_argument(
-        "--repository_path", required=True, help="Path to the {{ cookiecutter.project_name }} repository"
     )
     args = parser.parse_args()
     {{ cookiecutter.project_name }}_path = "."
@@ -105,6 +105,7 @@ def main():
         "error_log_file": args.error_log_file,
         "forwarded_allow_ip": args.forwarded_allow_ip,
     }
+    print(context)
     rendered_template = template_environment.get_template("config.template").render(
         context
     )
