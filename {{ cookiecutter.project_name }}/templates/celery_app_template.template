@@ -6,7 +6,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-{{ cookiecutter.project_name|upper }}_INI_FILE = '{{cookiecutter.project_name|upper +"_INI_FILE" }}'
+{{ cookiecutter.project_name|upper }}_INI_FILE = '{% raw %}{{{% endraw %}{{cookiecutter.project_name|upper +"_INI_FILE" }}{% raw %}}}{% endraw %}'
 
 TASKS_ENTRY_POINT_GROUP = '{{ cookiecutter.project_name }}.tasks'
 PLUGINS_ENTRY_POINT_GROUP = '{{ cookiecutter.project_name }}.plugins'

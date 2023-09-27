@@ -67,8 +67,8 @@ use = egg:rutter#urlmap
 [server:main]
 use = egg:gunicorn
 
-host =  {% raw %}{{{% endraw %}{{ cookiecutter.project_name +"_host" }} {% raw %}}}{% endraw %}
-port = {% raw %}{{{% endraw %}{{ cookiecutter.project_name +"_port" }} {% raw %}}}{% endraw %}
+host =  {% raw %}{{{% endraw %} {{ cookiecutter.project_name +"_host" }} {% raw %}}}{% endraw %}
+port = {% raw %}{{{% endraw %} {{ cookiecutter.project_name +"_port" }} {% raw %}}}{% endraw %}
 
 threads = 2
 workers = 1
