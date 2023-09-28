@@ -15,7 +15,7 @@ pyramid.includes =
     pyramid_debugtoolbar
 
 {% raw %}
-sqlalchemy.url = mysql+mysqlconnector://{{ mysql_user_name }}:{{ mysql_user_password }}@{{ mysql_host }}/{{ mysql_schema }}?charset=utf8&ssl_disabled=True
+sqlalchemy.url = mysql+mysqlconnector://{{ mysql_user_name }}:{{ mysql_user_password }}@{{ mysql_host }}/{{ mysql_schema }}?charset=utf8mb4
 {% endraw %}
 retry.attempts = 3
 
@@ -48,6 +48,11 @@ user.repository = {{ repository_path }}
 {% endraw %}
 
 mysql.cnf = %(here)s/mysql.cnf
+
+#email.server =
+#email.user =
+#email.password =
+#email.from =
 
 # By default, the toolbar only appears for clients from IP addresses
 # '127.0.0.1' and '::1'.

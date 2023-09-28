@@ -20,7 +20,7 @@ class User(object):
         self.userData = user_data
         self.login = user_data["user_id"]
         self.name = user_data["user_name"]
-        self.super = user_data["user_super"]
+        self.role = user_data["user_role"]
         self.gravatarURL = "#"
         if user_data["user_about"] is None:
             self.about = ""
@@ -122,9 +122,9 @@ def check_login(user, password, request):
         else:
             return False
 
-def setPasswordResetToken(request, userName, reset_key, reset_token):
+def setPasswordResetToken(request, userId, reset_key, reset_token):
     token_expires_on = datetime.datetime.now() + relativedelta(hours=+24)
-    request.dbsession.query(userModel).filter(userModel.user_name == userName).update(
+    request.dbsession.query(userModel).filter(userModel.user_id == userId).update(
         {
             "user_password_reset_key": reset_key,
             "user_password_reset_token": reset_token,

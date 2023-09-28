@@ -53,13 +53,13 @@ pserve ./config.ini
 - The MrStack CookieCutter assumes that your MySQL server root account has a password. If your account does not have a password then edit the config.ini file to remove the colons (:) between the user the password. The same for alembic.ini and run again "alembic upgrade head"
 
   ```ini
-  sqlalchemy.url = mysql+mysqlconnector://root@localhost/test_project?charset=utf8&ssl_disabled=True
+  sqlalchemy.url = mysql+mysqlconnector://root@localhost/test_project?charset=utf8mb4
   ```
 
 - In some Linux distributions MySQL cannot connect to localhost but to 127.0.0.1. If you get a connexion refused edit the config.ini file to change localhost to 127.0.0.1. The same for alembic.ini and run again "alembic upgrade head"
 
   ```ini
-  sqlalchemy.url = mysql+mysqlconnector://root@127.0.0.1/test_project?charset=utf8&ssl_disabled=True
+  sqlalchemy.url = mysql+mysqlconnector://root@127.0.0.1/test_project?charset=utf8mb4
   ```
 
   

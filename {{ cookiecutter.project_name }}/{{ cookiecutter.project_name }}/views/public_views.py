@@ -326,10 +326,10 @@ class RegisterView(PublicView):
 class RecoverPasswordView(PublicView):
     def send_password_by_email(self, body, target_name, target_email, mail_from):
         msg = MIMEText(body.encode("utf-8"), "plain", "utf-8")
-        ssubject = self._("ClimMob - Password reset request")
+        ssubject = self._("{{ cookiecutter.project_name }} - Password reset request")
         subject = Header(ssubject.encode("utf-8"), "utf-8")
         msg["Subject"] = subject
-        msg["From"] = "{} <{}>".format("ClimMob", mail_from)
+        msg["From"] = "{} <{}>".format("{{ cookiecutter.project_name }}", mail_from)
         recipient = "{} <{}>".format(target_name.encode("utf-8"), target_email)
         msg["To"] = Header(recipient, "utf-8")
         msg["Date"] = utils.formatdate(time())
@@ -358,7 +358,7 @@ class RecoverPasswordView(PublicView):
         email_from = self.request.registry.settings.get("email.from", None)
         if email_from is None:
             log.error(
-                "ClimMob has no email settings in place. Email service is disabled."
+                "{{ cookiecutter.project_name }} has no email settings in place. Email service is disabled."
             )
             return False
         if email_from == "":
@@ -376,9 +376,9 @@ class RecoverPasswordView(PublicView):
             },
         )
 
-        self.send_password_by_email(text, user_dict.fullName, email_to, email_from)
+        self.send_password_by_email(text, user_dict.name, email_to, email_from)
 
-    def processView(self):
+    def process_view(self):
 
         # If we logged in then go to dashboard
         policy = get_policy(self.request, "main")
@@ -387,7 +387,6 @@ class RecoverPasswordView(PublicView):
         if currentUser is not None:
             raise HTTPNotFound()
 
-        error_summary = {}
         if "submit" in self.request.POST:
             email = self.request.POST.get("user_email", None)
             if email is not None:
@@ -403,18 +402,24 @@ class RecoverPasswordView(PublicView):
                     self.returnRawViewResult = True
                     return HTTPFound(location=self.request.route_url("login"))
                 else:
-                    error_summary["email"] = self._(
-                        "Cannot find an user with such email address"
+                    self.append_to_errors(
+                        self._(
+                            "Cannot find an user with such email address"
+                        )
                     )
             else:
-                error_summary["email"] = self._("You need to provide an email address")
 
-        return {"error_summary": error_summary}
+                self.append_to_errors(
+                    self._(
+                        "You need to provide an email address"
+                    )
+                )
+
+        return {}
 
 
 class ResetPasswordView(PublicView):
-    def processView(self):
-        error_summary = {}
+    def process_view(self):
         dataworking = {}
 
         reset_key = self.request.matchdict["reset_key"]
@@ -428,7 +433,7 @@ class ResetPasswordView(PublicView):
             if not safe:
                 raise HTTPNotFound()
 
-            dataworking = self.getPostDict()
+            dataworking = self.get_post_dict()
             login = dataworking["user"]
             token = dataworking["token"]
             new_password = dataworking["password"].strip()
@@ -468,22 +473,45 @@ class ResetPasswordView(PublicView):
                                         location=self.request.route_url("login")
                                     )
                                 else:
-                                    error_summary = {
-                                        "Error": self._(
+
+                                    self.append_to_errors(
+                                        self._(
                                             "The password and the confirmation are not the same"
                                         )
-                                    }
+                                    )
                             else:
-                                error_summary = {
-                                    "Error": self._("The password cannot be empty")
-                                }
+                                self.append_to_errors(
+                                    self._(
+                                        "The password cannot be empty"
+                                    )
+                                )
                         else:
-                            error_summary = {"Error": self._("Invalid token")}
-                    else:
-                        error_summary = {"Error": self._("Invalid token")}
-                else:
-                    error_summary = {"Error": self._("Invalid key")}
-            else:
-                error_summary = {"Error": self._("User does not exist")}
 
-        return {"error_summary": error_summary, "dataworking": dataworking}
+                            self.append_to_errors(
+                                self._(
+                                    "Invalid token"
+                                )
+                            )
+                    else:
+
+                        self.append_to_errors(
+                            self._(
+                                "Invalid token"
+                            )
+                        )
+                else:
+
+                    self.append_to_errors(
+                        self._(
+                            "Invalid key"
+                        )
+                    )
+            else:
+
+                self.append_to_errors(
+                    self._(
+                        "User does not exist"
+                    )
+                )
+
+        return {"dataworking": dataworking}

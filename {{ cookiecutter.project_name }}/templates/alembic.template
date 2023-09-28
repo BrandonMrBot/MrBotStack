@@ -35,7 +35,7 @@ script_location = alembic
 # are written from script.py.mako
 # output_encoding = utf-8
 {% raw %}
-sqlalchemy.url = mysql+mysqlconnector://{{ mysql_user_name }}:{{ mysql_user_password }}@{{ mysql_host }}/{{ mysql_schema }}?charset=utf8&ssl_disabled=True
+sqlalchemy.url = mysql+mysqlconnector://{{ mysql_user_name }}:{{ mysql_user_password }}@{{ mysql_host }}/{{ mysql_schema }}?charset=utf8mb4
 {% endraw %}
 {{ cookiecutter.project_name }}.ini.file = {% raw %}{{ config_path }}{% endraw %}
 
