@@ -18,7 +18,8 @@
             {{ _('Language') }}:
             <select id="language" style="color: rgba(0,0,0,.5)">
                 {% block language_options %}
-                    <option id="en" value="en">English</option>
+                    <option id="en" value="en">{{ _("English") }}</option>
+                    <option id="es" value="es">{{ _("Spanish") }}</option>
                 {% endblock language_options %}
             </select>
         </div>

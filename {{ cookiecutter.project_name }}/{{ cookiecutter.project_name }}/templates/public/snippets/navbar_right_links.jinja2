@@ -1,20 +1,21 @@
 <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
     <li class="nav-item">
-        <a class="nav-link" href="{{ request.route_url('login') }}">
+        <a class="nav-link" href="{{ request.route_url('login') }}" style="color: white">
             <i class="fas fa-sign-in-alt mr-2"></i> {{ _('Login') }}
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ request.route_url('register') }}">
+        <a class="nav-link" href="{{ request.route_url('register') }}" style="color: white">
             <i class="fas fa-user-plus mr-2"></i> {{ _('Sign up') }}
         </a>
     </li>
     <li class="nav-item">
-        <div style="margin-top: 8px; color: rgba(0,0,0,.5)">
+        <div style="margin-top: 8px; color: white" >
             {{ _('Language') }}:
-            <select id="language" style="color: rgba(0,0,0,.5)">
+            <select id="language" style="">
                 {% block language_options %}
-                    <option id="en" value="en">English</option>
+                    <option id="en" value="en">{{ _("English") }}</option>
+                    <option id="es" value="es">{{ _("Spanish") }}</option>
                 {% endblock language_options %}
             </select>
         </div>

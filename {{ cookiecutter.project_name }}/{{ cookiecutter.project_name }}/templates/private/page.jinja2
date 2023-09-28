@@ -2,46 +2,233 @@
 
 {% block css %}
     {% cssresource request,'main_library','adminlte' %}
+    {% cssresource request,'main_library','toastr' %}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 {% endblock css %}
 
 {% block topScripts %}
-
+    {% jsresource request,'main_library','toastr' %}
 {% endblock topScripts %}
 
-{% block bodyclass %}hold-transition layout-top-nav{% endblock bodyclass %}
+{% block bodyclass %}sidebar-mini layout-fixed{% endblock bodyclass %}
 
 {% block body %}
-<div class="wrapper">
-    {% block wrapper %}
-        {% block navbar %}
-            {% include 'private/snippets/navbar.jinja2' %}
-        {% endblock navbar %}
-        <div class="content-wrapper">
-            {% block content_wrapper %}
-                {% block breadcrums %}
-                    {% include 'private/snippets/breadcrums.jinja2' %}
-                {% endblock breadcrums %}
-                <div class="content">
-                    {% block main_content %}
-                        <div class="container">
-                            {% block main_container %}
+    <div class="wrapper">
+        {% block wrapper %}
 
-                            {% endblock main_container %}
-                        </div>
-                    {% endblock main_content %}
-                </div>
-            {% endblock content_wrapper %}
-        </div>
-        {% block sidebar %}
-{#            Uncomment the below line to have an example of a side-bar menu#}
-{#            {% include 'private/snippets/sidebar.jinja2' %}#}
-        {% endblock sidebar %}
-        {% block footer %}
-            {% include 'private/snippets/footer.jinja2' %}
-        {% endblock footer %}
-    {% endblock wrapper %}
-</div>
+            {% block navbar %}
+                {% include 'private/snippets/navbar.jinja2' %}
+            {% endblock navbar %}
+
+            <div class="content-wrapper">
+                {% block content_wrapper %}
+                    {% block breadcrums %}
+                        {% include 'private/snippets/breadcrums.jinja2' %}
+                    {% endblock breadcrums %}
+                    <div class="content">
+                        {% block main_content %}
+                            <div class="container-fluid">
+                                {% block main_container %}
+
+                                {% endblock main_container %}
+                            </div>
+                        {% endblock main_content %}
+                    </div>
+                {% endblock content_wrapper %}
+            </div>
+
+            {% block sidebar %}
+
+            {% endblock sidebar %}
+
+            {% block footer %}
+                {% include 'private/snippets/footer.jinja2' %}
+            {% endblock footer %}
+        {% endblock wrapper %}
+    </div>
+
+    {% block styles %}
+        <style>
+            .searchbar{
+                margin-bottom: 10px;
+                margin-top: 5px;
+                width: 100%;
+                border-radius: 2px;
+                border: 1px solid #b5b5b5;
+                padding: 2px;
+                padding-left: 5px;
+                color: #6a6a6a;
+            }
+            .searchbar:focus{
+                outline: none;
+            }
+
+            .time-card{
+              margin: 0;
+              color: black;
+              border-radius: 5px;
+              width: 120px;
+              height: 93px;
+              background-color: white;
+              box-shadow: 1px 4px 3px rgba(0,0,0,0.4)
+            }
+
+            .day-div{
+              font-size: 13px;
+              border-radius: 5px 5px 0px 0px;
+              width: 100%;
+              text-align: center;
+              padding: 10px 0px;
+              color: white;
+            }
+
+            .date-color-1{
+              background-color: #28a745;
+            }
+
+            .date-color-2{
+              background-color: #17a2b8;
+            }
+
+            .date-color-3{
+              background-color: #eba059;
+            }
+
+            .main-div{
+              width: 100%;
+              height: 100%;
+              text-align: center;
+
+            }
+
+            .month-year-div{
+              font-size: 12px;
+              margin-top: 4px;
+              text-transform: uppercase;
+            }
+
+            .day{
+              font-size: 22px;
+              margin-top: 0px;
+            }
+
+            .time{
+              padding-top: 25px;
+            }
+
+            .alert-span {
+              font-size: 14px;
+              cursor: pointer;
+              color: #77787a;
+              margin-left: 16px
+            }
+
+            .alert-span:hover {
+              color: #2e4966;
+            }
+
+            .alert-span i {
+              margin-right: 2px;
+            }
+
+
+
+
+
+          @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+          @keyframes bake-pie {
+            from {
+              transform: rotate(0deg) translate3d(0,0,0);
+            }
+          }
+
+          body {
+            background: #EEE;
+          }
+          main {
+            margin: 11px auto;
+          }
+          section {
+            margin-top: 30px;
+          }
+          .pieID {
+            display: inline-block;
+            vertical-align: top;
+          }
+          .pie {
+            height: 150px;
+            width: 150px;
+            position: relative;
+            margin: 0 20px 20px 0;
+          }
+          .pie::before {
+            content: "";
+            display: block;
+            position: absolute;
+            z-index: 1;
+            width: 75px;
+            height: 75px;
+            background: #EEE;
+            border-radius: 50%;
+            top: 38px;
+            left: 38px;
+          }
+          .pie::after {
+            content: "";
+            display: block;
+            width: 120px;
+            height: 2px;
+            border-radius: 50%;
+            margin: 220px auto;
+
+          }
+          .slice {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            clip: rect(0px, 150px, 150px, 75px);
+            animation: bake-pie 1s;
+          }
+          .slice span {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: black;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            clip: rect(0px, 150px, 150px, 75px);
+          }
+          .legend {
+            list-style-type: none;
+            padding: 0;
+            margin: 0 0 0 15px;
+            background: #FFF;
+            padding: 15px;
+            font-size: 13px;
+            box-shadow: 1px 1px 0 #DDD,
+                        2px 2px 0 #BBB;
+          }
+          .legend li {
+            width: 110px;
+            height: 1.25em;
+            margin-bottom: 0.7em;
+            padding-left: 0.5em;
+            border-left: 1.25em solid black;
+          }
+          .legend em {
+            font-style: normal;
+          }
+          .legend span {
+            float: right;
+          }
+
+
+        </style>
+    {% endblock styles %}
+
     {% block scripts %}
         {% jsresource request,'main_library','adminlte' %}
         <script>
@@ -79,4 +266,43 @@
             }
         </script>
     {% endblock %}
+
+    {% block toastr %}
+        {% set messageData = request.session.pop_flash() %}
+
+        {% if messageData|length > 0 %}
+            <script>
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+
+                messageData = '{{ messageData[0] }}';
+                let btn_type = "success"
+                let idx = messageData.indexOf("|");
+                if (idx >= 0)
+                {
+                    let btn_str = messageData.substr(0,idx);
+                    messageData = messageData.substr(messageData.length - (messageData.length-idx-1));
+                    if (btn_str === "info")
+                        toastr.info(messageData);
+
+                    if (btn_str === "warning")
+                        toastr.warning(messageData);
+
+                    if (btn_str === "error")
+                        toastr.error(messageData);
+
+
+                }else{
+                    toastr.success(messageData);
+                }
+
+            </script>
+        {% endif %}
+
+    {% endblock toastr %}
+
 {% endblock body %}

@@ -1,8 +1,9 @@
 <footer class="main-footer">
     {# To the right #}
     <div class="float-right d-none d-sm-inline">
-        {{ _('Using') }} <a href="https://adminlte.io">AdminLTE</a> 3.0.5
+        {{ _('Version') }}: {{ request.h.get_version() }}
     </div>
     {# Default to the left #}
-    <strong>{{ _('Copyright') }} &copy; 2020 Your company.</strong> {{ _('All rights reserved.') }}
+    <strong>{{ _("Copyright") }}</strong> {{ _("2023, MrBot Software Solutions") }}
+    <br/>
 </footer>

@@ -15,7 +15,7 @@ from {{ cookiecutter.project_name }}.views.public_views import (
     RecoverPasswordView,
     ResetPasswordView
 )
-from {{ cookiecutter.project_name }}.views.private_views import UserPrivatePageView
+from {{ cookiecutter.project_name }}.views.private_views import Dashboard_view
 
 log = logging.getLogger("{{ cookiecutter.project_name }}")
 
@@ -69,7 +69,10 @@ def load_routes(config):
     # {{ cookiecutter.project_name }} private routes
     routes.append(
         add_route(
-            "private", "/user/{userid}", UserPrivatePageView, "private/index.jinja2"
+            "dashboard",
+            "/user/{userid}/dashboard",
+            Dashboard_view,
+            "private/index.jinja2",
         )
     )
 

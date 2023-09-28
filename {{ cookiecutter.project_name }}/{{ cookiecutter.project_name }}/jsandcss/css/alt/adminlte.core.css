@@ -3802,6 +3802,10 @@ input[type="button"].btn-block {
   content: "Browse";
 }
 
+.custom-file-input:lang(es) ~ .custom-file-label::after {
+  content: "Examinar";
+}
+
 .custom-file-input ~ .custom-file-label[data-browse]::after {
   content: attr(data-browse);
 }

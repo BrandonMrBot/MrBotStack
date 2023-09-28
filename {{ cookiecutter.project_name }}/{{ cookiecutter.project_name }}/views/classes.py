@@ -91,7 +91,7 @@ class PrivateView(object):
         self.returnRawViewResult = False
         self.viewingSelfAccount = True
         self.showWelcome = False
-        self.checkCrossPost = True
+        self.checkCrossPost = False
         locale = Locale(request.locale_name)
         if locale.character_order == "left-to-right":
             self.classResult["rtl"] = False

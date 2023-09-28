@@ -1,15 +1,32 @@
-<div class="content-header">
-    <div class="container">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0 text-dark"> {{ _('Private section') }} <small>{{ _('Example') }}</small></h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">{{ _('Home') }}</a></li>
-                    <li class="breadcrumb-item"><a href="#">{{ _('Layout') }}</a></li>
-                    <li class="breadcrumb-item active">{{ _('Private home') }}</li>
-                </ol>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-secondary">
+            <div class="card-body">
+                <table width="100%">
+                    <tr>
+                        <td>
+                            <h1 class="m-0 text-dark"> {{ _title }} </h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <ol class="breadcrumb" style="margin-bottom: 0px">
+                                <li class="breadcrumb-item"><a href="{{ request.route_url('dashboard', userid=activeUser.login) }}">{{ _('Dashboard') }}</a></li>
+
+                                {% for opt in extra %}
+                                    {% if opt[1] %}
+                                        <li class="breadcrumb-item"><a href="{{ opt[1] }}">{{ opt[0] }}</a></li>
+                                    {% else %}
+                                        <li class="breadcrumb-item">{{ opt[0] }}</li>
+                                    {% endif %}
+                                {% endfor %}
+
+                                <li class="breadcrumb-item">{{ _title }}</li>
+                            </ol>
+                        </td>
+                    </tr>
+                </table>
+
             </div>
         </div>
     </div>

@@ -6,10 +6,15 @@
     </div>
 {% endblock breadcrums %}
 
+{% block breadcrums %}
+    {% set _title = _("Dashboard "+activeUser.login) %}
+    {% include 'private/snippets/breadcrums.jinja2' %}
+{% endblock breadcrums %}
+
 {% block main_container %}
     <div class="row">
         <div class="col-lg-12">
-            Private content goes here
+
         </div>
     </div>
 {% endblock main_container %}
