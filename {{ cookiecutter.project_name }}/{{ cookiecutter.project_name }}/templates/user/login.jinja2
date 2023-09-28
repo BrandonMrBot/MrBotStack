@@ -51,6 +51,9 @@
                 <p class="mb-0">
                     <a href="{{ request.route_url('register') }}" class="text-center">{{ _('Register a new account') }}</a>
                 </p>
+                <p class="mb-0">
+                    <a href="{{ request.route_url('recover') }}" class="text-center">{{ _('Forgot username or password?') }}</a>
+                </p>
                 {% endblock login_bottom_actions %}
             </div>
         </div>

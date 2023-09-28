@@ -1,6 +1,6 @@
 {% block email_body %}
     {% block email_hello %}
-        {{ _("Dear {{ cookiecutter.project_name }}'s user") }}
+        {{ _("Dear {}'s user").format( cookiecutter.project_name ) }}
     {% endblock email_hello %}
     {% block email_message %}
         {{ _('You have received this email because you requested us on') }} {{ recovery_date }} {{ _('to reset your password') }}.
@@ -14,6 +14,6 @@
     {% block email_goodbye %}
         {{ _('Regards') }},
 
-        {{ _('The {{ cookiecutter.project_name }} team') }}
+        {{ _('The {} team').format(cookiecutter.project_name) }}
     {% endblock email_goodbye %}
 {% endblock email_body %}
