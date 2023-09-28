@@ -16,7 +16,7 @@ import {{ cookiecutter.project_name }}.plugins as p
 from {{ cookiecutter.project_name }}.config.encdecdata import encode_data
 from {{ cookiecutter.project_name }}.processes.avatar import Avatar
 from {{ cookiecutter.project_name }}.views.classes import PublicView
-from {{ cookiecutter.project_name }}.config.auth import get_user_data, resetKeyExists, getUserByEmail, setPasswordResetToken, resetPassword
+from {{ cookiecutter.project_name }}.config.auth import get_user_data, resetKeyExists, getUserByEmail, setPasswordResetToken, resetPassword, getUserByResetKeyAnToken
 from {{ cookiecutter.project_name }}.processes.db import (
     register_user,
     update_last_login,
@@ -323,6 +323,7 @@ class RegisterView(PublicView):
                 self.append_to_errors(self._("Invalid email"))
         return {"next": next, "userdata": data}
 
+
 class RecoverPasswordView(PublicView):
     def send_password_by_email(self, body, target_name, target_email, mail_from):
         msg = MIMEText(body.encode("utf-8"), "plain", "utf-8")
@@ -364,12 +365,11 @@ class RecoverPasswordView(PublicView):
         if email_from == "":
             return False
         date_string = readble_date(datetime.datetime.now(), self.request.locale_name)
-        reset_url = self.request.route_url("reset_password", reset_key=reset_key)
+        reset_url = self.request.route_url("reset_password", reset_key=reset_key, reset_token=reset_token)
         text = render_template(
             "email/recover_email.jinja2",
             {
                 "recovery_date": date_string,
-                "reset_token": reset_token,
                 "user_dict": user_dict,
                 "reset_url": reset_url,
                 "_": _,
@@ -423,6 +423,7 @@ class ResetPasswordView(PublicView):
         dataworking = {}
 
         reset_key = self.request.matchdict["reset_key"]
+        reset_token = self.request.matchdict["reset_token"]
 
         if not resetKeyExists(self.request, reset_key):
             raise HTTPNotFound()
@@ -434,12 +435,13 @@ class ResetPasswordView(PublicView):
                 raise HTTPNotFound()
 
             dataworking = self.get_post_dict()
-            login = dataworking["user"]
-            token = dataworking["token"]
+
             new_password = dataworking["password"].strip()
             new_password2 = dataworking["password2"].strip()
-            user = dataworking["user"]
-            if user != "":
+
+            user = getUserByResetKeyAnToken(self.request, reset_key, reset_token)
+
+            if not user:
                 log.error(
                     "Suspicious bot password recovery from IP: {}. Agent: {}. Email: {}".format(
                         self.request.remote_addr,
@@ -447,70 +449,53 @@ class ResetPasswordView(PublicView):
                         dataworking["email"],
                     )
                 )
-            user = get_user_data(login, self.request)
 
             if user is not None:
-                if user.userData["user_password_reset_key"] == reset_key:
-                    if user.userData["user_password_reset_token"] == token:
-                        if (
-                            user.userData["user_password_reset_expires_on"]
-                            > datetime.datetime.now()
-                        ):
-                            if new_password != "":
-                                if new_password == new_password2:
-                                    new_password = encode_data(
-                                        self.request, new_password
-                                    )
-                                    resetPassword(
-                                        self.request,
-                                        user.userData["user_name"],
-                                        reset_key,
-                                        token,
-                                        new_password,
-                                    )
-                                    self.returnRawViewResult = True
-                                    return HTTPFound(
-                                        location=self.request.route_url("login")
-                                    )
-                                else:
-
-                                    self.append_to_errors(
-                                        self._(
-                                            "The password and the confirmation are not the same"
-                                        )
-                                    )
-                            else:
-                                self.append_to_errors(
-                                    self._(
-                                        "The password cannot be empty"
-                                    )
-                                )
+                if (
+                        user["user_password_reset_expires_on"]
+                        > datetime.datetime.now()
+                ):
+                    if new_password != "":
+                        if new_password == new_password2:
+                            new_password = encode_data(
+                                self.request, new_password
+                            )
+                            resetPassword(
+                                self.request,
+                                user["user_id"],
+                                reset_key,
+                                reset_token,
+                                new_password,
+                            )
+                            self.returnRawViewResult = True
+                            return HTTPFound(
+                                location=self.request.route_url("login")
+                            )
                         else:
 
                             self.append_to_errors(
                                 self._(
-                                    "Invalid token"
+                                    "The password and the confirmation are not the same"
                                 )
                             )
                     else:
-
                         self.append_to_errors(
                             self._(
-                                "Invalid token"
+                                "The password cannot be empty"
                             )
                         )
                 else:
 
                     self.append_to_errors(
                         self._(
-                            "Invalid key"
+                            "Invalid token"
                         )
                     )
             else:
 
                 self.append_to_errors(
                     self._(
-                        "User does not exist"
+                        "Invalid information"
                     )
                 )
 

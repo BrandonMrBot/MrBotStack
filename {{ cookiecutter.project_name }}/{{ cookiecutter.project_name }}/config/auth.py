@@ -143,7 +143,7 @@ def resetKeyExists(request, reset_key):
     return False
 
 def resetPassword(request, user_id, reset_key, reset_token, new_password):
-    request.dbsession.query(userModel).filter(userModel.user_name == user_id).filter(
+    request.dbsession.query(userModel).filter(userModel.user_id == user_id).filter(
         userModel.user_password_reset_key == reset_key
     ).filter(userModel.user_password_reset_token == reset_token).update(
         {
@@ -153,3 +153,13 @@ def resetPassword(request, user_id, reset_key, reset_token, new_password):
             "user_password": new_password,
         }
     )
+
+def getUserByResetKeyAnToken(request, reset_key, reset_token):
+    res = map_from_schema(
+        request.dbsession.query(userModel)
+        .filter(userModel.user_password_reset_key == reset_key)
+        .filter(userModel.user_password_reset_token == reset_token)
+        .first()
+    )
+
+    return res
