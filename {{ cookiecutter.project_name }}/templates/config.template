@@ -49,6 +49,8 @@ user.repository = {{ repository_path }}
 
 mysql.cnf = %(here)s/mysql.cnf
 
+secure.javascript = true
+
 #email.server =
 #email.user =
 #email.password =

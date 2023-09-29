@@ -13,10 +13,24 @@ from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid_authstack import AuthenticationStackPolicy
 from {{ cookiecutter.project_name }}.config.environment import load_environment
-
+from configparser import ConfigParser, NoOptionError
 
 def main(global_config, **settings):
+    apppath = os.path.dirname(os.path.abspath(__file__))
+
+    if global_config is not None:  # pragma: no cover
+        config = ConfigParser()
+        config.read(global_config["__file__"])
+        try:
+            threads = config.get("server:main", "threads")
+        except NoOptionError:
+            threads = "1"
+        settings["apppath"] = apppath
+        settings["server:threads"] = threads
+        settings["global:config:file"] = global_config["__file__"]
+
     """This function returns a Pyramid WSGI application."""
+
     auth_policy = AuthenticationStackPolicy()
     policy_array = []
 
@@ -44,9 +58,8 @@ def main(global_config, **settings):
         authorization_policy=authz_policy,
     )
 
-    apppath = os.path.dirname(os.path.abspath(__file__))
-
     config.include(".models")
     # Load and configure the host application
     load_environment(settings, config, apppath, policy_array)
+
     return config.make_wsgi_app()

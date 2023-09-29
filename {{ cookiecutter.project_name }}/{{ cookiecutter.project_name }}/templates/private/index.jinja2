@@ -1,10 +1,21 @@
 {% extends 'private/page.jinja2' %}
 
-{% block breadcrums %}
-    <div class="content-header">
+{% block title %}
+    <title>{{ _('Dashboard') }}</title>
+{% endblock %}
 
-    </div>
-{% endblock breadcrums %}
+{% block css %}
+    {% cssresource request,'main_library','adminlte' %}
+    {% cssresource request,'main_library','toastr' %}
+    {% cssresource request,'main_library','sweetalert' %}
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+{% endblock css %}
+
+{% block topScripts %}
+    {% include 'private/snippets/delete.jinja2' %}
+    {% jsresource request,'main_library','toastr' %}
+    {% jsresource request,'main_library','sweetalert' %}
+{% endblock topScripts %}
 
 {% block breadcrums %}
     {% set _title = _("Dashboard "+activeUser.login) %}

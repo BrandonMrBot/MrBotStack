@@ -1,0 +1,1 @@
+find /opt/APPNAME/APPNAME/static/ephemeral -name '*.js' -mmin +1440 -delete > /dev/null

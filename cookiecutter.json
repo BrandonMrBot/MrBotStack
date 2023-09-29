@@ -6,7 +6,9 @@
   "project_author_email": "me@myserver.com",
   "project_author_url": "www.myserver.com",
   "_copy_without_render": [
-    "*jinja2"
+    "*jinja2",
+    "*.js",
+    "*.css"
   ]
 }
 

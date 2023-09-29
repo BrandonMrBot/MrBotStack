@@ -6,6 +6,10 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 {% endblock css %}
 
+{% block topScripts %}
+    {% jsresource request,'main_library','jqueryvalidate' %}
+{% endblock topScripts %}
+
 {% block bodyclass %}hold-transition register-page{% endblock bodyclass %}
 {% block body %}
     <div class="register-box">
@@ -19,7 +23,7 @@
                 {% block login_errors %}
                     {{ form.display_errors(errors) }}
                 {% endblock login_errors %}
-                <form action="{{ request.url }}" method="post">
+                <form action="{{ request.url }}" method="post" id="formRegister">
                     {{ form.secure_form(request) }}
                     <div class="input-group mb-3">
                         <input type="text" name="user_name" value="{{ userdata.user_name }}" class="form-control" placeholder="{{ _('Full name') }}">
@@ -70,6 +74,9 @@
                         </div>
                     </div>
                 </form>
+
+                {% include 'user/registerValidations.jinja2' %}
+
                 {% block register_form_bottom_actions %}
                     <a href="{{ request.route_url('login') }}" class="text-center">{{ _('I already have an account') }}</a>
                 {% endblock register_form_bottom_actions %}

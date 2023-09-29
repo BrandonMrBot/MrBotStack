@@ -118,7 +118,7 @@ class LoginView(PublicView):
                         self.returnRawViewResult = True
                         return HTTPFound(
                             location=self.request.route_url(
-                                "private", userid=current_user.login
+                                "dashboard", userid=current_user.login
                             ),
                             headers={"FS_error": "true"},
                         )
@@ -155,7 +155,7 @@ class LoginView(PublicView):
                         )
                         next_page = self.request.params.get(
                             "next"
-                        ) or self.request.route_url("private", userid=user.login)
+                        ) or self.request.route_url("dashboard", userid=user.login)
                         self.returnRawViewResult = True
                         return HTTPFound(location=next_page, headers=headers)
                 else:
@@ -226,6 +226,7 @@ class RegisterView(PublicView):
                                     self.request, data["user_password"]
                                 )
                                 data["user_active"] = 1
+                                data["user_role"] = 1
                                 # Load connected plugins and check if they modify the registration of an user
                                 continue_registration = True
                                 for plugin in p.PluginImplementations(p.IRegistration):
@@ -248,7 +249,7 @@ class RegisterView(PublicView):
                                         # Load connected plugins so they perform actions after the registration
                                         # is performed
                                         next_page = self.request.route_url(
-                                            "private", userid=data["user_id"]
+                                            "dashboard", userid=data["user_id"]
                                         )
                                         plugin_next_page = ""
                                         for plugin in p.PluginImplementations(
@@ -263,7 +264,7 @@ class RegisterView(PublicView):
                                                 if plugin_next_page != next_page:
                                                     next_page = plugin_next_page
                                         if next_page == self.request.route_url(
-                                            "private", userid=data["user_id"]
+                                            "dashboard", userid=data["user_id"]
                                         ):
                                             login_data = {
                                                 "login": data["user_id"],
@@ -277,7 +278,7 @@ class RegisterView(PublicView):
                                             self.returnRawViewResult = True
                                             return HTTPFound(
                                                 location=self.request.route_url(
-                                                    "private", userid=data["user_id"]
+                                                    "dashboard", userid=data["user_id"]
                                                 ),
                                                 headers=headers,
                                             )
