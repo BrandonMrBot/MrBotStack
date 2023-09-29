@@ -9,10 +9,11 @@ __all__ = [
     "add_column_to_schema",
     "map_to_schema",
     "map_from_schema",
+    "add_modules_to_schema",
 ]
 
 _SCHEMA = []
-
+_MODULES = []
 
 def initialize_schema():
     for table in metadata.sorted_tables:
@@ -23,6 +24,9 @@ def initialize_schema():
             )
         _SCHEMA.append({"name": table.name, "fields": fields})
 
+def add_modules_to_schema(module_list):
+    for a_module in module_list:
+        _MODULES.append(a_module)
 
 def add_column_to_schema(table_name, field_name, field_comment):
     """

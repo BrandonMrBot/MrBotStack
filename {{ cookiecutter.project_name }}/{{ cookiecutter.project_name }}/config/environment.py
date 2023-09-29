@@ -6,7 +6,7 @@ from pyramid_session_redis import session_factory_from_settings
 import {{ cookiecutter.project_name }}.plugins as p
 import {{ cookiecutter.project_name }}.utility.helpers as helpers
 import {{ cookiecutter.project_name }}.resources as r
-from {{ cookiecutter.project_name }}.models import add_column_to_schema
+from {{ cookiecutter.project_name }}.models import add_column_to_schema, add_modules_to_schema
 from {{ cookiecutter.project_name }}.config.jinja_extensions import (
     initialize,
     ExtendThis,
@@ -163,6 +163,9 @@ def load_environment(settings, config, apppath, policy_array):
     schemas_allowed = [
         "user",
     ]
+
+    modules_allowed = ["{{ cookiecutter.project_name }}.models.{{ cookiecutter.project_name }}"]
+
     for plugin in p.PluginImplementations(p.ISchema):
         schema_fields = plugin.update_schema(config)
         for field in schema_fields:
@@ -171,9 +174,17 @@ def load_environment(settings, config, apppath, policy_array):
                     field["schema"], field["fieldname"], field["fielddesc"]
                 )
 
+    for plugin in p.PluginImplementations(p.IDatabase):
+        schemas_allowed = plugin.update_extendable_tables(schemas_allowed)
+
+    for plugin in p.PluginImplementations(p.IDatabase):
+        modules_allowed = plugin.update_extendable_modules(modules_allowed)
+
+    add_modules_to_schema(modules_allowed)
+
     # Call any connected plugins to update {{ cookiecutter.project_name }} ORM. For example: Add new tables
     for plugin in p.PluginImplementations(p.IDatabase):
-        plugin.update_orm(config.registry["dbsession_metadata"])
+        plugin.update_orm(config)
 
     # jinjaEnv is used by the jinja2 extensions so we get it from the config
     config.get_jinja2_environment()
