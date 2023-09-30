@@ -66,16 +66,15 @@ def resource_callback(request, response):
             if a_line.find("<script ") >= 0:
                 ignore_line = False
             if a_line.find("</body>") >= 0:
-                if js_content:
-                    a_line = (
-                        '<script src="'
-                        + request.application_url
-                        + "/{{ cookiecutter.project_name }}_static/ephemeral/"
-                        + js_file_id
-                        + ".js"
-                        + '"></script>\n'
-                        + a_line
-                    )
+                a_line = (
+                    '<script src="'
+                    + request.application_url
+                    + "/{{ cookiecutter.project_name }}_static/ephemeral/"
+                    + js_file_id
+                    + ".js"
+                    + '"></script>\n'
+                    + a_line
+                )
             if not ignore_line:
                 if in_html:
                     if a_line != "":
@@ -85,7 +84,10 @@ def resource_callback(request, response):
                         js_content = js_content + a_line + "\n"
 
         with open(js_file, "w") as jf:
-            jf.write(js_content)
+            if not js_content:
+                jf.write("console.log('');")
+            else:
+                jf.write(js_content)
         response.body = html_content.encode()
 
 class PublicView(object):
