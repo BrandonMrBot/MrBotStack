@@ -1,0 +1,36 @@
+
+
+<script>
+
+$('#formLogin').validate({
+    rules: {
+        email: {
+            required: true
+        },
+        passwd:{
+            required: true
+        },
+
+    },
+    messages: {
+        email: {
+            required: "{{ _("Please enter the username or email") }}"
+        },
+        passwd:{
+            required: "{{ _("Enter the password") }}"
+        }
+    },
+    errorElement: 'span',
+    errorPlacement: function (error, element) {
+      error.addClass('invalid-feedback');
+      element.closest('.input-group').append(error);
+    },
+    highlight: function (element, errorClass, validClass) {
+      $(element).addClass('is-invalid');
+    },
+    unhighlight: function (element, errorClass, validClass) {
+      $(element).removeClass('is-invalid');
+    }
+  });
+
+</script>

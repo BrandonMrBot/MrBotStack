@@ -9,8 +9,11 @@
 {% block bodyclass %}hold-transition login-page{% endblock bodyclass %}
 {% block body %}
     <div class="login-box">
-        <div class="login-logo">
-            <a href="{{ request.route_url('home') }}"><b>MrStack Project</b></a>
+        <div class="login-logo" style="background-color: #173d67; margin-bottom: 0px">
+            <a href="{{ request.route_url('home') }}">
+                <img src="{{ request.url_for_static('img/AdminLTELogo.png') }}" alt="App Logo" class="brand-image"
+                 style="width: 100%">
+            </a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -18,7 +21,7 @@
                 {% block login_errors %}
                     {{ form.display_errors(errors) }}
                 {% endblock login_errors %}
-{#                <p class="login-box-msg">{{ _('Sign in to start your session') }}</p>#}
+                <p class="login-box-msg">{{ _('Process to recover your password') }}</p>
 
                  <form class="m-t" role="form" method="post" action="{{ request.path }}">
                      {{ form.secure_form(request) }}

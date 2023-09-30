@@ -66,15 +66,16 @@ def resource_callback(request, response):
             if a_line.find("<script ") >= 0:
                 ignore_line = False
             if a_line.find("</body>") >= 0:
-                a_line = (
-                    '<script src="'
-                    + request.application_url
-                    + "/{{ cookiecutter.project_name }}_static/ephemeral/"
-                    + js_file_id
-                    + ".js"
-                    + '"></script>\n'
-                    + a_line
-                )
+                if js_content:
+                    a_line = (
+                        '<script src="'
+                        + request.application_url
+                        + "/{{ cookiecutter.project_name }}_static/ephemeral/"
+                        + js_file_id
+                        + ".js"
+                        + '"></script>\n'
+                        + a_line
+                    )
             if not ignore_line:
                 if in_html:
                     if a_line != "":

@@ -6,6 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from {{ cookiecutter.project_name }}.models.{{ cookiecutter.project_name }} import (
     Base,
     User,
+    Country
 )
 from .schema import *
 

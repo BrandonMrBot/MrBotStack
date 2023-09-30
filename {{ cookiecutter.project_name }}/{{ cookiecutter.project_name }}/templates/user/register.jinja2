@@ -7,14 +7,19 @@
 {% endblock css %}
 
 {% block topScripts %}
+
     {% jsresource request,'main_library','jqueryvalidate' %}
+
 {% endblock topScripts %}
 
 {% block bodyclass %}hold-transition register-page{% endblock bodyclass %}
 {% block body %}
     <div class="register-box">
-        <div class="register-logo">
-            <a href="{{ request.route_url('home') }}"><b>MrStack Project</b></a>
+        <div class="register-logo" style="background-color: #173d67; margin-bottom: 0px">
+            <a href="{{ request.route_url('home') }}">
+                <img src="{{ request.url_for_static('img/AdminLTELogo.png') }}" alt="App Logo" class="brand-image"
+                 style="width: 100%">
+            </a>
         </div>
 
         <div class="card">
@@ -34,6 +39,27 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
+                        <input type="text" name="user_organization" value="{{ userdata.user_organization }}" class="form-control" placeholder="{{ _('Organization name') }}">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-building"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <select id="cnty_cod" name="user_cnty" class="form-control select2" style="width: 100%;" required>
+                            <option value="">{{ _("Select one country") }}</option>
+                            {% for country in listOfCountries %}
+                                <option value="{{ country.cnty_cod }}" {% if userdata.user_cnty == country.cnty_cod %}selected{% endif %}>{{ country.cnty_name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-map"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
                         <input type="email" name="user_email" value="{{ userdata.user_email }}" class="form-control" placeholder="{{ _('Email') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -42,7 +68,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" name="user_id" value="{{userdata.user_id }}" class="form-control" placeholder="{{ _('User name') }}">
+                        <input type="text" name="user_id" value="{{userdata.user_id }}" class="form-control" placeholder="{{ _('Username') }}">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -78,7 +104,11 @@
                 {% include 'user/registerValidations.jinja2' %}
 
                 {% block register_form_bottom_actions %}
-                    <a href="{{ request.route_url('login') }}" class="text-center">{{ _('I already have an account') }}</a>
+                    <br>
+                    <p class="mb-0">
+                        <a href="{{ request.route_url('login') }}" class="btn btn-block btn-outline-primary btn-sm">{{ _('I already have an account') }}</a>
+                    </p>
+
                 {% endblock register_form_bottom_actions %}
             </div>
         </div>

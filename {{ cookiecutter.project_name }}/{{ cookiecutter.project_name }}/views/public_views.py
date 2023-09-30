@@ -20,6 +20,7 @@ from {{ cookiecutter.project_name }}.config.auth import get_user_data, resetKeyE
 from {{ cookiecutter.project_name }}.processes.db import (
     register_user,
     update_last_login,
+    get_all_countries
 )
 from {{ cookiecutter.project_name }}.config.jinja_extensions import jinjaEnv, ExtendThis
 from {{ cookiecutter.project_name }}.utility.helpers import readble_date
@@ -322,7 +323,12 @@ class RegisterView(PublicView):
             else:
                 log.error("Invalid email {}".format(data["user_email"]))
                 self.append_to_errors(self._("Invalid email"))
-        return {"next": next, "userdata": data}
+
+        return {
+            "next": next,
+            "userdata": data,
+            "listOfCountries": get_all_countries(self.request),
+        }
 
 
 class RecoverPasswordView(PublicView):
